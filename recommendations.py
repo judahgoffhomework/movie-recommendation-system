@@ -7,6 +7,7 @@ Modifications by Frank McCown
 # A dictionary of movie critics and their ratings of a small
 # set of movies
 from math import sqrt
+from json import loads, dumps
 critics = {'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
                          'Just My Luck': 3.0, 'Superman Returns': 3.5, 'You, Me and Dupree': 2.5,
                          'The Night Listener': 3.0},
@@ -213,29 +214,82 @@ def loadMovieLens(path='movielens'):
             ratings[userId][movies[movieId]] = float(rating)
 
     return ratings
+	
+	
+class Solution:
+	def __init__(self, prefs):
+		self.preferences = prefs
+		self.solve_question_one()
+		self.solve_question_two()
+		self.solve_question_three()
+		self.solve_question_four()
+		self.solve_question_four()
+	
+	def print_list(self, list, list_item_prefix='   ', ending_line=True):
+		index = 1
+		for item in list:
+			print(f'{list_item_prefix}{index}. {item}')
+			index += 1
+		if ending_line:
+			print()
+			
+	def solve_question_one(self):
+		movie_counts = {}
+		for user, movies in self.preferences.items():
+			for movie in movies:
+				if movie in movie_counts:
+					movie_counts[movie] = movie_counts[movie] + 1
+				else:
+					movie_counts[movie] = 1
+		
+		sorted_movies = sorted(movie_counts.items(), key=lambda x: x[1], reverse=True)
+		
+		print('Question 1:')
+		print('   Most rankings')
+		self.print_list(map(lambda item: f'{item[0]} - {item[1]}', sorted_movies[0:5]))
+		
+		print('   Least rankings')
+		self.print_list(map(lambda item: f'{item[0]} - {item[1]}', sorted_movies[-5:]))
+		
+	def solve_question_two(self):
+		print('Question 2:')
+		raise NotImplementedError()
+		
+	def solve_question_three(self):
+		print('Question 3:')
+		raise NotImplementedError()
+		
+	def solve_question_four(self):
+		print('Question 4:')
+		raise NotImplementedError()
+		
+	def solve_question_five(self):
+		print('Question 5:')
+		raise NotImplementedError()
 
 
-print("Rose and Seymour =", sim_distance(critics, 'Lisa Rose', 'Gene Seymour'))
-print("Toby and LaSalle = ", sim_distance(critics, 'Toby', 'Mick LaSalle'))
+# print("Rose and Seymour =", sim_distance(critics, 'Lisa Rose', 'Gene Seymour'))
+# print("Toby and LaSalle = ", sim_distance(critics, 'Toby', 'Mick LaSalle'))
 
-print("Rose and Seymour =", sim_pearson(critics, 'Lisa Rose', 'Gene Seymour'))
-print("Toby and LaSalle = ", sim_pearson(critics, 'Toby', 'Mick LaSalle'))
+# print("Rose and Seymour =", sim_pearson(critics, 'Lisa Rose', 'Gene Seymour'))
+# print("Toby and LaSalle = ", sim_pearson(critics, 'Toby', 'Mick LaSalle'))
 
-print("\nReccommendations for Toby:\n",
-      getRecommendations(critics, 'Toby'))
+#print("\nReccommendations for Toby:\n",
+ #     getRecommendations(critics, 'Toby'))
 
-movies = transformPrefs(critics)
-print("\nTop Matches for 'Superman Returns':\n",
-      topMatches(movies, 'Superman Returns'))
+#movies = transformPrefs(critics)
+#print("\nTop Matches for 'Superman Returns':\n",
+ #     topMatches(movies, 'Superman Returns'))
 
-print("\nRecommendations for 'Just My Luck':\n",
-      getRecommendations(movies, 'Just My Luck'))
+#print("\nRecommendations for 'Just My Luck':\n",
+      #getRecommendations(movies, 'Just My Luck'))
 
 prefs = loadMovieLens()
-user = '67'
-print(prefs[user])
-print(f"\nRecommendations for {user}:\n", getRecommendations(prefs, user)[0:5])
+Solution(prefs)
+# user = '67'
+# print(prefs[user])
+# print(f"\nRecommendations for {user}:\n", getRecommendations(prefs, user)[0:5])
 
-itemsim = calculateSimilarItems(prefs, n=5)
-print(f"\nRecommended items for {user}:\n",
-      getRecommendedItems(prefs, itemsim, user))
+# itemsim = calculateSimilarItems(prefs, n=5)
+# print(f"\nRecommended items for {user}:\n",
+      # getRecommendedItems(prefs, itemsim, user))
